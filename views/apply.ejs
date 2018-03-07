@@ -1,0 +1,44 @@
+<form method='post' action='/home/apply' enctype="multipart/form-data"> 
+        <table class="table">   
+           <caption>申请成为讲师</caption>   
+           <tbody>   
+              <tr>   
+             <td align='right'>真实姓名:</td>   
+             <td><input type='text' name='realname'></td>   
+              </tr>   
+              <tr>   
+             <td align='right'>身份证号:</td>   
+             <td><input type='text' name='idnumber'></td>   
+              </tr>   
+              <tr>   
+             <td align='right'>照&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片:</td>   
+             <td><input type='file' name='photo'>手持身份证正面照</td>   
+              </tr>
+               <tr>
+                <td align='right'>
+                    <a href='#'>合同链接</a>&nbsp; 
+                </td>
+                <td>
+                     <input type='checkbox' name='accept' value='1'/>接受合同
+                </td>
+               </tr>
+              <tr>   
+             <td align='right'>讲师简历:</td>   
+             <td>
+             </td>   
+              </tr> 
+              <tr>     
+             <td colspan='2' align='center'> 
+                     <div id='apply'> 
+                      <textarea name="preview" rows="8" cols="102"></textarea> 
+                    </div> 
+             </td>   
+              </tr> 
+              <tr>     
+             <td colspan='2' align='center'> 
+                     <input type='submit' value='申请'/> 
+             </td>   
+              </tr> 
+           </tbody>   
+        </table> 
+        </form>

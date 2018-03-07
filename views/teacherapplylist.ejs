@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  function pass(id){
+    $.get("/admin/pass?id="+id,function(res){
+      if(res==1){
+        $("#main").load("/admin/teacherapplylist")
+      }else{
+        alert("数据库添加失败")
+      }
+    })
+  };
+  function refuse(id){
+     $("#refuseModal").modal("show");
+     refuseform.uid.value=id;
+
+  }
+  function refuseSub(){
+    $.get("/admin/refuse",$("#refuseform").serialize(),function(retex){
+       if(retex==1){
+      $("#main").load("/admin/teacherapplylist")
+
+       }else{
+        alert("操作失败")
+       }
+
+    })
+    return false;
+  }
+</script>
+<div id="main" style="border:1px solid green;width:810px;float:right">
+<table class="table">   
+           <caption>讲师申请列表</caption>   
+           <tbody>
+            <% rs.forEach(function(item){%>   
+              <tr>   
+                  <td>
+                      <img src='../<%-item.photoPath%>'/><br/>
+                      <%-item.realname%><br/>
+                      <%-item.idnumber%>
+                   </td>   
+                   <td>
+                       <%-item.preview%>
+                   </td>
+                   <td>
+                    <input type="button" class="btn btn-success"  value='审核通过' onclick='pass("<%-item._id%>")'/> &nbsp;
+                    <input type="button" class="btn btn-success"  value='审核驳回' onclick='refuse("<%-item._id%>")'/>
+                   </td>
+              </tr>
+            <%})%>  
+           </tbody>   
+        </table>
+</div>
+<div class="modal fade" id="refuseModal" >  
+        <div class="modal-dialog">  
+            <div class="modal-content">  
+                <div class="modal-header" style='text-align:center'> 
+                    驳回理由 
+                <div> 
+                <div class="modal-body" style='text-align:center'> 
+                    <form name='refuseform' id='refuseform' onsubmit='return refuseSub();'> 
+                        <textarea name='message' rows='6' cols='67' ></textarea><br/> 
+                        <input  type='hidden' name='uid'/> 
+                        <input type='submit'  value='确认驳回'/> 
+                    </form> 
+               </div> 
+               <div class="modal-footer"> 
+ 
+               </div> 
+            </div>  
+        </div>  
+    </div> 
+    </div> 
+    </div>   

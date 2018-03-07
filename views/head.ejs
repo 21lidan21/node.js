@@ -1,0 +1,99 @@
+ <!DOCTYPE html>  
+<html>  
+  <head>  
+    <title>在线教育</title>  
+    <meta charset="UTF-8">  
+<!-- 新 Bootstrap 核心 CSS 文件 -->  
+<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">  
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->  
+<script src="/javascripts/jquery.min.js"></script>  
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->  
+<script src="/javascripts/bootstrap.min.js"></script>  
+   <script type="text/javascript">
+        function viewMsg(url){
+             //$("#main").load(url);
+            location.href=url
+        }
+    </script>
+<!--<link rel='stylesheet' href='/stylesheets/style.css' />-->  
+    <style>  
+    .horul{  
+        float:left;  
+        font-size:1.5em;  
+        line-height:2em;  
+    }  
+    .horul li{  
+        display:inline-block;  
+        list-style:none;  
+        height:25px;  
+        width:3em;  
+        text-align:center;  
+    }  
+    .menu{  
+        width:1024px;  
+        background-color:#005f3d;  
+        height:1.5em;  
+        margin:0 auto;  
+        font-size:1.5em;  
+        display:hidden;  
+        text-align:center;  
+    }  
+    .menu span{  
+        float:left;  
+        display:inline-block;  
+        color:#ffffff;  
+        margin-left:1em;  
+    }  
+    .answer tr td div{  
+        width:45px;  
+        height:45px;  
+        background-color:green;  
+        color:#ffffff;  
+        text-align:center;  
+    }  
+    a,a:hover,a:visited{  
+        color:pink;  
+    }  
+    </style>  
+  </head>  
+  <body> 
+ <div style="width:1024px;height:3em;margin:1em auto">  
+    <span class="glyphicon glyphicon-comment" style="float:left;font-size:2em"><b>源库</b></span>  
+    &nbsp;  
+    <ul class="horul">  
+        <li>问答</li>  
+        <li>文章</li>  
+        <li>笔记</li>  
+        <li>活动</li>  
+    </ul>  
+    &nbsp;  
+    <div style="float:right;line-height:2em;">  
+    <input type="text"  placeholder="请输入关键词" style="width:240px;height:30px;" >  
+    <span class="glyphicon glyphicon-zoom-in" style="font-size:1.1em;"/>  
+    &nbsp; 
+    <%if(!loginbean){ %> 
+    <input type="button" class="btn btn-success" data-toggle="modal" data-target="#loginModal" href="./users/login" value="登录/注册"/>  
+    <%}else if(loginbean.role>0){%>
+     欢迎<%-loginbean.nicheng%>&nbsp;<a style="color:#000; cursor:pointer;" href="/home/">个人空间</a> &nbsp;<a style="color:#000; cursor:pointer;" href="/users/loginOut">注销</a>&nbsp;<a style="color:#000; cursor:pointer;" href="#" onclick="viewMsg('/home/msgList')">消息<span class="badge"><%-loginbean.msgNum%></span></a>
+    <%}else{%>
+     欢迎<%-loginbean.nicheng%>&nbsp;<a style="color:#000; cursor:pointer;" href="/admin/">管理员空间</a> &nbsp;<a style="color:#000; cursor:pointer;" href="/users/loginOut">注销</a>
+     <%}%>
+    &nbsp;  
+    </div>  
+    </div>  
+    <div class="menu">  
+    <span>home</span>  
+    <span>|</span>  
+    <span><a href="#">javascript</a></span>  
+    <span>php</span>  
+    <span>pathon</span>  
+    <span>java</span>  
+    <span>mysql</span>  
+    <span>ios</span>  
+    <span>android</span>  
+    <span>node.js</span>  
+    <span>html5</span>  
+    <span>lunux</span>  
+    <span>c++</span>  
+    <span>...</span>  
+    </div>  

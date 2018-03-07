@@ -1,0 +1,103 @@
+
+<script type="text/javascript">
+  function Newcourse(url){
+    location.href=url
+  }
+function tijiaoshenhe(id){
+  if(confirm("确认提交审核吗？")){
+    location.href="/course/shenhe?id="+id
+  }
+}
+</script>
+  <%- include head %> 
+    <div style="width:1024px;margin:1em auto;">  
+    <div style="border:1px solid green;width:210px;float:left">  
+            <div style='text-align:center'>你好,<%-loginbean.nicheng%></div>  
+            <table class="table">  
+   <tbody class="answer">  
+      <tr>  
+         <td>  
+               <div><br/></div>  
+        </td>  
+                <td>我的进度</td>  
+         </tr> 
+         <tr>  
+         <td>  
+               <div><br/></div>  
+        </td>  
+                <td>关注的课程</td>  
+         </tr>
+         <tr>  
+         <td>  
+               <div><br/></div>  
+        </td>  
+                <td>关注的讲师</td>  
+         </tr>
+         <tr>  
+         <td>  
+               <div><br/></div>  
+        </td>  
+                <td>学习圈</td>  
+         </tr>
+         <tr>  
+         <td>  
+               <div><br/></div>  
+        </td>
+        <% if(loginbean.role==1){ %>  
+                <td><a href='#' onclick='httpSend("/home/apply")'>申请为讲师</a></td> 
+            <% }else if(loginbean.role==2){ %> 
+             <td>审核中</td>
+              
+        <% }else if(loginbean.role==3){ %> 
+           <td>
+           <a href='/course/list' >课程列表</a>
+           </td>
+        <%}%>                                           
+         </tr>
+   </tbody>  
+</table>  
+    </div>
+<div id="main" style="border:1px solid green;width:810px;float:right">  
+        <table class="table">  
+           <caption style="text-align: center;">课程列表 <input type="button" class="btn btn-success" style="margin-left: 95px;" value="新建课程" onclick='Newcourse("/course/Newcourse")'/></caption> 
+           
+           <tbody>
+            <% courseRs.forEach(function(item){%>   
+              <tr>   
+                  <td>
+                      <img src='../<%-item.photoPath%>'/>
+                   </td>   
+                   <td>
+                       <%- item.title %>
+                   </td>
+                   <td>
+                    <% if(item.status==0){  %>
+                     编辑中
+                    <% }else if(item.status==1) { %>
+                    审核中
+                    <% }else if(item.status==2) { %>
+                    审核通过
+                    <% } %>
+                   </td>  
+                   <td>
+                   <% if(item.status==0){ %>
+                    <a href="/course/chapter?cid=<%- item._id %>&&title=<%- item.title %>"><input type="button" class="btn btn-success"  value='编辑章节'  /> </a>&nbsp;
+                    <input type="button" class="btn btn-success"  value='提交审核' onclick="tijiaoshenhe('<%- item._id %>')" />
+                     <% }else if(item.status==1) { %>
+                    审核中，请耐心等待。。。。。
+                    <% } %>
+                   </td>
+              </tr>
+            <%})%>  
+           </tbody>  
+        </table>  
+    </div>  
+   
+   
+    </div> 
+    </div>  
+
+
+
+
+ 

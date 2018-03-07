@@ -1,0 +1,137 @@
+  <%- include head %> 
+  <script type="text/javascript" src="/xheditor-1.2.2/xheditor-1.2.2.min.js"></script>  
+<script type="text/javascript" src="/xheditor-1.2.2/xheditor_lang/zh-cn.js"></script> 
+<script type="text/javascript"> 
+ var editor; 
+  $(pageInit);  
+  function pageInit()  
+  {  
+      $.extend(XHEDITOR.settings,{shortcuts:{'ctrl+enter':chapterForm}});   
+      editor=$(chapterForm.content).xheditor({html5Upload:false,upMultiple:'1',upLinkUrl:"../upload/upfile",upLinkExt:"zip,rar,txt",upImgUrl:"../upload/upimg",upImgExt:"jpg,jpeg,gif,png",upFlashUrl:"/uploadFlash",upFlashExt:"swf",upMediaUrl:"/uploadMedia",upMediaExt:"wmv,avi,wma,mp3,mid"});   
+       chapterForm.myurl.value = location.href; 
+  } 
+ 
+function showChapter(){
+   chapterForm.chapterBtn.value="创建新章节";
+   $("#capName").html("创建新章节");
+   $("#chapterForm").show();
+   chapterForm.action='/course/createChapter' ;
+   chapterForm.reset()
+};
+function hideChapter(){
+   $("#chapterForm").hide()
+}
+function delChapter(id,cid,title){
+ if(confirm("确定删除吗？")){
+   location.href="/course/delChapter?id="+id+"&&cid="+cid+"&&title="+title
+ }
+};
+function updChapter(id){
+  $.get("/course/getChapter?id="+id,function(data){
+     //console.log(res)
+      $("#chapterForm").show();
+      chapterForm.chapterBtn.value="修改章节";
+      $("#capName").html("修改章节");
+      chapterForm.title.value=data.title;
+       editor.setSource(data.content);
+       chapterForm.id.value=id;
+       chapterForm.action='/course/updChapter' 
+  })
+}
+  </script>
+ <div style="width:1024px;margin:1em auto;">
+     <form name='chapterForm' id='chapterForm' style="display: none;" method='post' action='/course/createChapter' >
+        <table class="table">  
+           <caption id="capName" style='text-align: center'>
+           创建新章节
+           </caption>  
+           <tbody>  
+              <tr>
+                <td align='right'>章节标题:</td>
+                <td><input type="text" class="form-control"  name='title' placeholder="请输入章节名称"></td>
+              </tr>
+              
+              
+              <tr>
+                <td align='right'>章节简介:</td>
+                <td>
+                  <textarea name='content' cols='90' rows='9'></textarea>
+                  <input type="hidden" name="courseid" value=<%-cid%> />
+                   <input type="hidden" name="id"  />
+               
+                </td>
+              </tr>
+              <tr>
+                <td align='center' colspan='2'>
+                <input type="hidden" name="myurl" >
+               
+                       <input type="submit" name="chapterBtn" class="btn btn-success"  value="创建章节"   />&nbsp;
+                       <a href='/course/list'><input type="button" class="btn btn-success"  value="收起" onclick="hideChapter()" /></a>
+                </td>
+                
+              </tr>
+           </tbody>  
+        </table> 
+        </form> 
+       <div id="main" style="border:1px solid green;width:1024px;float:right"> 
+        <table class="table"> 
+           <caption style="text-align: center;"><%-title%> <input type="button" class="btn btn-success" style="margin-left: 95px;" value="新章节" onclick='showChapter()'/></caption>
+           <%if(count>0){%>
+            <tbody>
+            <tr>   
+                  <td>
+                     标题
+                   </td> 
+                    <td>
+                       内容
+                   </td>  
+                   <td>
+                       操作
+                   </td>
+              </tr> 
+            <% rs.forEach(function(item){%>  
+             
+              <tr>   
+                  <td>
+                     <%- item.title %>
+                   </td>   
+                   <td>
+                       <%- item.content %>
+                   </td>
+                   <td>
+                    
+                   </td>  
+                   <td>
+                    <input type="button" class="btn btn-success"  value='修改' onclick="updChapter('<%- item._id %>')" /> &nbsp;
+                    <input type="button" class="btn btn-success"  value='删除' onclick="delChapter('<%- item._id %>', '<%- item.courseid %>','<%- item.title %>')" />
+                   </td>
+              </tr>
+            <%})%> 
+            <tr  style="text-align: center">   
+                  <td>
+                   第<%- page %> ／ <%- sumpage %> 页&nbsp;
+                   共<%- count %>条纪录
+                     <a href="<%-url%>&&page=1">首页</a>&nbsp;
+                  <%if(page>1){%>
+                     <a href="<%-url%>&&page=<%-page-=1%>">上一页</a>&nbsp;
+                  <%}else if(page < sumpage){%>
+                     <a href="<%-url%>&&page=<%-page+=1%>">下一页</a>&nbsp;
+                   <%}%>
+                     <a href="<%-url%>&&page=<%- sumpage %>">尾页</a>&nbsp;
+                    
+                     <%for(let i=1;i<=sumpage;i++){%>
+                        <a href="<%-url%>&&page=<%-i%>"><%-i%></a>&nbsp;
+                     <%}%>
+                   </td> 
+                    
+              </tr>  
+           </tbody> 
+           <%}else {%> 
+           您还没有添加新章节
+           <%}%>
+       </table>
+    </div>   
+    </div> 
+      
+  </body>  
+</html>   
